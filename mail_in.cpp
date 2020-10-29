@@ -75,7 +75,6 @@ class mail_message {
         }
         ~mail_message() {
             // cout << "Freeing mail_message...\n";
-            // TODO
         }
 };
 

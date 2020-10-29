@@ -9,7 +9,8 @@ out:
 	g++ mail_out.cpp -o mail-out
 
 clean:
-	rm mail-in mail-out || true
+	rm -f mail-in mail-out || true
+	rm -rf $(TREE) || true
 
 test:
 	./test.sh $(TREE)

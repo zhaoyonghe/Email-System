@@ -139,6 +139,67 @@ Expected test output:
 1 mail in wamara.
 1 mail in whaledom.
 
-
-
-
+yz3687@instance-1:~/Email-System$ make test TREE=root
+./test.sh root
+=================== inputs/00001 ===================
+The message has been sent to "scerne" successfully!
+The message has been sent to "starshine" successfully!
+The message has been sent to "scerne" successfully!
+The message has been sent to "starshine" successfully!
+The message has been sent to "scerne" successfully!
+The message has been sent to "starshine" successfully!
+The message has been sent to "neckar" successfully!
+The message has been sent to "neckar" successfully!
+The message has been sent to "neckar" successfully!
+The message has been sent to "neckar" successfully!
+The message has been sent to "neckar" successfully!
+The message has been sent to "neckar" successfully!
+The message has been sent to "neckar" successfully!
+The message has been sent to "neckar" successfully!
+The message has been sent to "neckar" successfully!
+The message has been sent to "neckar" successfully!
+The message has been sent to "neckar" successfully!
+The message has been sent to "neckar" successfully!
+The message has been sent to "neckar" successfully!
+The message has been sent to "neckar" successfully!
+The message has been sent to "neckar" successfully!
+=================== inputs/00002 ===================
+The message has been sent to "outmate" successfully!
+The message has been sent to "outroll" successfully!
+=================== inputs/00003 ===================
+Current mail message is invalid: final message without ending with period!
+=================== inputs/00004 ===================
+Current mail message is invalid: the format is incorrect or the sender is invalid!
+=================== inputs/00005 ===================
+Current mail message is invalid: the format is incorrect or the sender is invalid!
+Current mail message is invalid: the format is incorrect or the sender is invalid!
+Current mail message is invalid: the format is incorrect or the sender is invalid!
+Current mail message is invalid: the format is incorrect or the sender is invalid!
+Current mail message is invalid: the format is incorrect or the sender is invalid!
+Current mail message is invalid: the format is incorrect or the sender is invalid!
+=================== inputs/00006 ===================
+Current mail message is invalid: the format is incorrect or the sender is invalid!
+Current mail message is invalid: the format is incorrect or the sender is invalid!
+Current mail message is invalid: the format is incorrect or the sender is invalid!
+Current mail message is invalid: the format is incorrect or the sender is invalid!
+Current mail message is invalid: the format is incorrect or the sender is invalid!
+=================== inputs/00007 ===================
+Failed to send the message to "scern": the recipient name is not valid or other errors!
+Failed to send the message to "scernE": the recipient name is not valid or other errors!
+The message has been sent to "scerne" successfully!
+Failed to send the message to "starshne": the recipient name is not valid or other errors!
+The message has been sent to "wamara" successfully!
+The message has been sent to "whaledom" successfully!
+=================== inputs/00008 ===================
+Current mail message is invalid: the format is incorrect or the sender is invalid!
+Current mail message is invalid: the format is incorrect or the sender is invalid!
+Current mail message is invalid: the format is incorrect or the sender is invalid!
+The message has been sent to "scerne" successfully!
+The message has been sent to "starshine" successfully!
+Current mail message is invalid: the format is incorrect or the sender is invalid!
+Current mail message is invalid: the format is incorrect or the sender is invalid!
+The message has been sent to "scerne" successfully!
+The message has been sent to "starshine" successfully!
+The message has been sent to "scerne" successfully!
+The message has been sent to "starshine" successfully!
+Current mail message is invalid: final message without ending with period!

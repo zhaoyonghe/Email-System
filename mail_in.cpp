@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <sys/wait.h>
+#include <dirent.h>
 
 using namespace std;
 
@@ -69,11 +70,11 @@ class mail_message {
         }
 
         mail_message() {
-            cout << "Creating mail_message...\n";
+            // cout << "Creating mail_message...\n";
             this->valid = false;
         }
         ~mail_message() {
-            cout << "Freeing mail_message...\n";
+            // cout << "Freeing mail_message...\n";
             // TODO
         }
 };
@@ -99,6 +100,23 @@ bool is_data_line(string s) {
     return s.compare("DATA") == 0;
 }
 
+bool is_valid_username(string& name) {
+    DIR* dir;
+	struct dirent* entry;
+	dir = opendir("mail");
+	if (dir == NULL) {
+		return false;
+	}
+	while ((entry = readdir(dir)) != NULL) {
+        if (name.compare(entry->d_name) == 0) {
+            closedir(dir);
+            return true;
+        }
+    }
+    closedir(dir);
+    return false;
+}
+
 void check_and_parse(vector<string>& lines, mail_message* msg) {
     if (lines.size() < 3) {
         return;
@@ -122,10 +140,16 @@ void check_and_parse(vector<string>& lines, mail_message* msg) {
         return;
     }
 
+    // check if sender is valid
+    string sender = lines[0].substr(11, lines[0].size() - 12); 
+    if (!is_valid_username(sender)) {
+        return;
+    }
+
     // lines are valid
     msg->set_valid();
 
-    msg->set_from(lines[0].substr(11, lines[0].size() - 12));
+    msg->set_from(sender);
     for (int j = 1; j < i; j++) {
         msg->append_to(lines[j].substr(9, lines[j].size() - 10));
     }
@@ -142,7 +166,7 @@ void send(mail_message* msg) {
     vector<string>::iterator b = msg->get_to_begin_iterator();
     vector<string>::iterator e = msg->get_to_end_iterator();
     for (vector<string>::iterator it = b; it != e; it++) {
-        cout << "+++" << *it << "+++\n";
+        // cout << "+++" << *it << "+++\n";
         int fd[2];
         char buf[it->length() + 1];
         for (int i = 0; i < it->length(); i++) {
@@ -178,27 +202,25 @@ void send(mail_message* msg) {
             if (status == EXIT_SUCCESS) {
                 cout << "The message has been sent to \"" << *it << "\" successfully!\n";
             } else {
-                cerr << "Failed to send the message to \"" << *it << "\": the user name is not valid or other errors.\n";
+                cerr << "Failed to send the message to \"" << *it << "\": the recipient name is not valid or other errors!\n";
             }
         }
     }
 }
 
 int main(int argc, char const *argv[]) {
-    /* code */
     vector<string> lines;
     string line;
     while (getline(cin, line)) {
         if (line.compare(".") == 0) {
             mail_message msg;
-            cout << sizeof(msg) << endl;
-            // TODO: check the sender
             check_and_parse(lines, &msg);
             if (msg.is_valid()) {
-                cerr << "Current mail message is not valid!\n";
+                send(&msg);
+            } else {
+                cerr << "Current mail message is invalid: the format is incorrect or the sender is invalid!\n";
             }
-            send(&msg);
-
+            
             // clean up the current message
             lines.clear();
             continue;
@@ -208,7 +230,7 @@ int main(int argc, char const *argv[]) {
 
     if (lines.size() != 0) {
         // final message without ending with period .
-        cerr << "Current mail message is not valid!\n";    
+        cerr << "Current mail message is invalid: final message without ending with period!\n";    
     }
     return 0;
 }

@@ -1,5 +1,6 @@
+cd $1
 for i in inputs/*
 do
-	echo $i
+	echo =================== $i ===================
 	bin/mail-in <$i
 done

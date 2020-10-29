@@ -39,3 +39,8 @@ urushinic \
 vegetocarbonaceous \
 wamara \
 whaledom
+cd ..
+cd ..
+cp mail-in mail-out $1/bin
+cp tests/* $1/inputs
+chmod +x ./test.sh

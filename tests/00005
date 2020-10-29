@@ -1,0 +1,82 @@
+MAIL FROM:<overrich>
+RCPT TO:<outmate>
+
+RCPT TO:<outroll>
+DATA
+Hi
+
+.Hi....
+
+..Hi.......Hi
+
+!@#$%^&*()_+~`1234567890\][';/.,{}|:"<>?]
+ .
+. .
+.
+RCPT TO:<outmate>
+MAIL FROM:<overrich>
+RCPT TO:<outroll>
+DATA
+Hi
+
+.Hi....
+
+..Hi.......Hi
+
+!@#$%^&*()_+~`1234567890\][';/.,{}|:"<>?]
+ .
+. .
+.
+DATA
+RCPT TO:<outmate>
+MAIL FROM:<overrich>
+RCPT TO:<outroll>
+
+Hi
+
+.Hi....
+
+..Hi.......Hi
+
+!@#$%^&*()_+~`1234567890\][';/.,{}|:"<>?]
+ .
+. .
+.
+MAIL FROM:<overrich>
+RCPT TO:<outroll>
+
+Hi
+
+.Hi....
+
+..Hi.......Hi
+
+!@#$%^&*()_+~`1234567890\][';/.,{}|:"<>?]
+ .
+. .
+.
+RCPT TO:<outmate>
+RCPT TO:<outroll>
+DATA
+Hi
+
+.Hi....
+
+..Hi.......Hi
+
+!@#$%^&*()_+~`1234567890\][';/.,{}|:"<>?]
+ .
+. .
+.
+MAIL FROM:<overrich>
+DATA
+Hi
+
+.Hi....
+
+..Hi.......Hi
+
+!@#$%^&*()_+~`1234567890\][';/.,{}|:"<>?]
+ .
+. .
+.

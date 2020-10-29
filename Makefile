@@ -1,8 +1,6 @@
 default: clean in out
-	./create-tree.sh $(TREE)
-	cp mail-in mail-out $(TREE)/bin
-	cp 00001 $(TREE)/inputs
-	cp test.sh $(TREE)
+	chmod +x ./create-tree
+	./create-tree $(TREE)
 
 in:
 	g++ mail_in.cpp -o mail-in
@@ -12,3 +10,6 @@ out:
 
 clean:
 	rm mail-in mail-out || true
+
+test:
+	./test.sh $(TREE)

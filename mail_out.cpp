@@ -80,19 +80,19 @@ bool write_mail(string& name, string& mail_msg) {
 
 int main(int argc, char const *argv[]) {
     string name(argv[1]);
-    cout << "mail_out: " << name << endl;
+    // cout << "mail_out: " << name << endl;
     if (!is_valid_username(name)) {
         return EXIT_FAILURE;
     }
     string line;
     string mail_msg;
-    cout << "============================\n";
+    // cout << "============================\n";
     while (getline(cin, line)) {
-        cout << line << endl;
+        // cout << line << endl;
         mail_msg.append(line);
         mail_msg.append("\n");
     }
-    cout << "============================\n";
+    // cout << "============================\n";
     if (!write_mail(name, mail_msg)) {
         return EXIT_FAILURE;
     }

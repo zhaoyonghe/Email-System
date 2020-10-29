@@ -1,0 +1,41 @@
+
+MAIL FROM:<reinsure>>
+RCPT TO:<scerne>
+RCPT TO:<starshine>
+DATA
+Hello World!
+..Hello World Again!
+............
+.
+MAIL FROM:<reinsue>
+RCPT TO:<scerne>
+RCPT TO:<starshine>
+DATA
+Hello World!
+..Hello World Again!
+............
+.
+MAIL FROM:<reiNsure>
+RCPT TO:<scerne>
+RCPT TO:<starshine>
+DATA
+Hello World!
+..Hello World Again!
+............
+.
+MAIL FROM:<$#@#T#@$G$F3>
+RCPT TO:<scerne>
+RCPT TO:<starshine>
+DATA
+Hello World!
+..Hello World Again!
+............
+.
+MAIL FROM:<>
+RCPT TO:<scerne>
+RCPT TO:<starshine>
+DATA
+Hello World!
+..Hello World Again!
+............
+.

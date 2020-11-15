@@ -1,9 +1,13 @@
 rm -rf "$1"
 mkdir "$1"
-cd "$1"
 
+cd "$1"
 mkdir bin mail inputs tmp lib
-cd mail
+cp ../mail-in ../mail-out bin
+cp ../inputs/* inputs
+chmod +x ../test.sh
+
+cd mail &&
 mkdir addleness \
 analects \
 annalistic \
@@ -39,8 +43,3 @@ urushinic \
 vegetocarbonaceous \
 wamara \
 whaledom
-cd ..
-cd ..
-cp mail-in mail-out $1/bin
-cp tests/* $1/inputs
-chmod +x ./test.sh

@@ -11,12 +11,8 @@ Then you will have a tree called "root" with the below hierarchy:
     /inputs
         00001
         00002
-        00003
-        00004
-        00005
-        00006
-        00007
-        00008
+        ...
+        00032
     /mail
         /addleness
         /analects

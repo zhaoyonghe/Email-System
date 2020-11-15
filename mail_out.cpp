@@ -26,7 +26,7 @@ bool write_mail(string& name, string& mail_msg) {
     string path("mail/");
     path.append(name);
 
-    int max = -1;
+    int max = 0;
 
     DIR* dir;
 	struct dirent* entry;

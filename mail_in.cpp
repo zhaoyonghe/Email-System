@@ -46,7 +46,7 @@ class mail_message {
             string s;
             s.append("From: ");
             s.append(this->from);
-            s.append("\n    To: ");
+            s.append("\nTo: ");
             for (int i = 0; i < this->to.size(); i++) {
                 s.append(this->to[i]);
                 if (i != this->to.size() - 1) {
@@ -78,7 +78,7 @@ class mail_message {
         }
 };
 
-bool is_from_line(string s) {
+bool is_valid_from_line(string s) {
     if (s.size() < 13) {
         return false;
     }
@@ -86,7 +86,7 @@ bool is_from_line(string s) {
     return s.find("MAIL FROM:<") == 0 && s[s.size() - 1] == '>';
 }
 
-bool is_to_line(string s) {
+bool is_valid_to_line(string s) {
     if (s.size() < 11) {
         return false;
     }
@@ -94,7 +94,7 @@ bool is_to_line(string s) {
     return s.find("RCPT TO:<") == 0 && s[s.size() - 1] == '>';
 }
 
-bool is_data_line(string s) {
+bool is_valid_data_line(string s) {
     transform(s.begin(), s.end(), s.begin(), ::toupper);
     return s.compare("DATA") == 0;
 }
@@ -124,17 +124,17 @@ void check_and_parse(vector<string>& lines, mail_message* msg) {
     int n = lines.size();
 
     // lines.size() >= 3
-    if (!is_from_line(lines[0])) {
+    if (!is_valid_from_line(lines[0])) {
         return;
     }
 
     int i = 1;
     for (; i < n; i++) {
-        if (!is_to_line(lines[i])) {
+        if (!is_valid_to_line(lines[i])) {
             break;
         }
     }
-    if (i == 1 || i == n || !is_data_line(lines[i])) {
+    if (i == 1 || i == n || !is_valid_data_line(lines[i])) {
         // no RCPT TO or no DATA or next is not DATA
         return;
     }

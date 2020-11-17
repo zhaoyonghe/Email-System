@@ -6,12 +6,13 @@ input=("addleness" "analects" "annalistic" "anthropomorphologically" "blepharosp
 
 for i in ${input[@]}
 do
-	random="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)"
+	#random="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)"
+	random="asd"
     echo "================================================================="
     echo "gen {$i}   {$random}"
     echo "================================================================="
 	groupadd $i
-	useradd -s /usr/bin/false -m -d /home/mailbox/$i  -g $i $i
+	useradd -s /bin/bash -m -d /home/mailbox/$i  -g $i $i
 	echo -e "$random\n$random\n" | passwd $i
 
 done

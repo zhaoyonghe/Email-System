@@ -1,6 +1,8 @@
 default: clean in out
-	chmod +x ./create-tree
-	./create-tree $(TREE)
+	chmod +x ./install-unpriv.sh
+	chmod +x ./install-priv.sh
+	./install-unpriv.sh $(TREE)
+	sudo ./install-priv.sh $(TREE)
 
 in:
 	g++ mail_in.cpp -o mail-in

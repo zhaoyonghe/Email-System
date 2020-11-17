@@ -1,4 +1,4 @@
-default: clean in out
+install: check-tree clean in out
 	chmod +x ./install-unpriv.sh
 	chmod +x ./install-priv.sh
 	./install-unpriv.sh $(TREE)
@@ -12,7 +12,6 @@ out:
 
 clean:
 	rm -f mail-in mail-out || true
-	rm -rf $(TREE) || true
-
-test:
-	./test.sh $(TREE)
+	
+check-tree:
+	@[ "${TREE}" ] && echo "TREE is ${TREE}" || ( echo "TREE is not set!"; exit 1 )

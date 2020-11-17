@@ -1,18 +1,13 @@
 =================================================================================
-Compile & test introduction:
+Compile & design introduction:
 =================================================================================
-To compile and generate the tree, run
-    make TREE=root
-Then you will have a tree called "root" with the below hierarchy:
-/root
+To compile and generate the tree, run (delete the previous tree directory if it exists):
+    make install TREE=tree
+Then you will have a tree called "tree" with the below hierarchy:
+/tree
     /bin
         mail-in
         mail-out
-    /inputs
-        00001
-        00002
-        ...
-        00032
     /mail
         /addleness
         /analects
@@ -49,15 +44,37 @@ Then you will have a tree called "root" with the below hierarchy:
         /vegetocarbonaceous
         /wamara
         /whaledom
-    /lib
-    /tmp
-Then run
-    make test TREE=root
-to execute the test program. You can add new input files to /tests and run
-    make TREE=root
-    make test TREE=root
-to test again.
-See appendix for the test files description and expected test output.
+This tree is protected by the linux file system permissions. The setting is as follows.
+The tree directory is owned by root, making sure only root can delete tree/bin and tree/mail:
+    drwxr-xr-x root root tree/
+Use the same way to protect the bin and mail, making sure only root can delete binaries and mailboxes:
+    drwxr-xr-x root root tree/bin/
+    drwxr-xr-x root root tree/mail/
+A new mailer user that belongs to the mailer group is added. All mail users (addleness to whaledom) are added to a new mailuser group. Based on that, we have:
+    -r-sr-sr-x mailer mailuser tree/bin/mail-in
+    ---x------ mailer mailer tree/bin/mail-out
+    drwxrwx--- mailer <username> tree/mail/<username>/
+Everyone can call mail-in, but only mail-in can call mail-out. Only the user itself, and mail-out, can "rwx" its own mailbox.
+The message in the mailbox is like this: 
+    ----rw---- mailer mailuser tree/mail/<username>/00001
+Although 00001 is readable and writable by all mail users, the mailbox is protected. Thus other users cannot read and write 00001.
+
+=================================================================================
+Tests:
+=================================================================================
+
+However, using valgrind can cause problem like this, and this cannot be solved by using sudo or even running as a root:
+
+==586== 
+==586== Warning: Can't execute setuid/setgid/setcap executable: bin/mail-in
+==586== Possible workaround: remove --trace-children=yes, if in effect
+==586== 
+valgrind: bin/mail-in: Permission denied
+
+Valgrind works if you comment out the "sudo ./install-priv.sh" in the Makefile and install again. Thus, I handin two versions of test scripts to make the TA's life easier :)
+    run_tests_no_priv.sh: It should be run when the tree is not protected, with sudo.
+    run_tests.sh: It should be run when the tree is protected, with sudo. This script also includes some tests on the permission correctness.
+TA can delete these two scripts when give others as hw5.
 
 =================================================================================
 Possible outputs:
@@ -82,7 +99,7 @@ RCPT TO:<username>
 DATA
 .
 
-2. Only one space between MAIL and FROM, RCPT and TO (1st message in tests/00008).
+2. Only one space between MAIL and FROM, RCPT and TO.
 For example, this is not allowed:
 
 MAIL      FROM:<username>
@@ -90,7 +107,7 @@ RCPT     TO:<username>
 DATA
 .
 
-3. No space between : and < (2nd message in tests/00008)
+3. No space between : and <.
 For example, this is not allowed:
 
 MAIL FROM: <username>
@@ -98,7 +115,7 @@ RCPT TO:<username>
 DATA
 .
 
-4. Empty user name is considered as a format error and will be reported in mail-in (3rd message in tests/00008).
+4. Empty user name is considered as a format error and will be reported in mail-in.
 For example, this will cause "Current mail message is invalid: the format is incorrect or the sender is invalid!":
 
 MAIL FROM:<reinsure>
@@ -108,94 +125,3 @@ Hello World!
 ..Hello World Again!
 ............
 .
-
-
-=================================================================================
-Appendix:
-=================================================================================
-
-Test files description:
-
-tests/00001: Multiple valid mail messages.
-tests/00002: Single valid mail message.
-tests/00003: Invalid mail message (no end period).
-tests/00004: Invalid mail message (empty message).
-tests/00005: Invalid mail messages (control lines out of order or missing).
-tests/00006: Invalid mail messages (invalid sender).
-tests/00007: Invalid mail messages (exists invalid recipient(s), but the messages are sent to the valid recipients).
-tests/00008: Multiple valid and invalid mail messages. Only valid messages will be sent.
-
-Expected test output:
-
-15 mails in neckar.
-1 mail in outmate.
-1 mail in outroll.
-7 mails in scerne.
-6 mails in starshine.
-1 mail in wamara.
-1 mail in whaledom.
-
-yz3687@instance-1:~/Email-System$ make test TREE=root
-./test.sh root
-=================== inputs/00001 ===================
-The message has been sent to "scerne" successfully!
-The message has been sent to "starshine" successfully!
-The message has been sent to "scerne" successfully!
-The message has been sent to "starshine" successfully!
-The message has been sent to "scerne" successfully!
-The message has been sent to "starshine" successfully!
-The message has been sent to "neckar" successfully!
-The message has been sent to "neckar" successfully!
-The message has been sent to "neckar" successfully!
-The message has been sent to "neckar" successfully!
-The message has been sent to "neckar" successfully!
-The message has been sent to "neckar" successfully!
-The message has been sent to "neckar" successfully!
-The message has been sent to "neckar" successfully!
-The message has been sent to "neckar" successfully!
-The message has been sent to "neckar" successfully!
-The message has been sent to "neckar" successfully!
-The message has been sent to "neckar" successfully!
-The message has been sent to "neckar" successfully!
-The message has been sent to "neckar" successfully!
-The message has been sent to "neckar" successfully!
-=================== inputs/00002 ===================
-The message has been sent to "outmate" successfully!
-The message has been sent to "outroll" successfully!
-=================== inputs/00003 ===================
-Current mail message is invalid: final message without ending with period!
-=================== inputs/00004 ===================
-Current mail message is invalid: the format is incorrect or the sender is invalid!
-=================== inputs/00005 ===================
-Current mail message is invalid: the format is incorrect or the sender is invalid!
-Current mail message is invalid: the format is incorrect or the sender is invalid!
-Current mail message is invalid: the format is incorrect or the sender is invalid!
-Current mail message is invalid: the format is incorrect or the sender is invalid!
-Current mail message is invalid: the format is incorrect or the sender is invalid!
-Current mail message is invalid: the format is incorrect or the sender is invalid!
-=================== inputs/00006 ===================
-Current mail message is invalid: the format is incorrect or the sender is invalid!
-Current mail message is invalid: the format is incorrect or the sender is invalid!
-Current mail message is invalid: the format is incorrect or the sender is invalid!
-Current mail message is invalid: the format is incorrect or the sender is invalid!
-Current mail message is invalid: the format is incorrect or the sender is invalid!
-=================== inputs/00007 ===================
-Failed to send the message to "scern": the recipient name is not valid or other errors!
-Failed to send the message to "scernE": the recipient name is not valid or other errors!
-The message has been sent to "scerne" successfully!
-Failed to send the message to "starshne": the recipient name is not valid or other errors!
-The message has been sent to "wamara" successfully!
-The message has been sent to "whaledom" successfully!
-=================== inputs/00008 ===================
-Current mail message is invalid: the format is incorrect or the sender is invalid!
-Current mail message is invalid: the format is incorrect or the sender is invalid!
-Current mail message is invalid: the format is incorrect or the sender is invalid!
-The message has been sent to "scerne" successfully!
-The message has been sent to "starshine" successfully!
-Current mail message is invalid: the format is incorrect or the sender is invalid!
-Current mail message is invalid: the format is incorrect or the sender is invalid!
-The message has been sent to "scerne" successfully!
-The message has been sent to "starshine" successfully!
-The message has been sent to "scerne" successfully!
-The message has been sent to "starshine" successfully!
-Current mail message is invalid: final message without ending with period!
